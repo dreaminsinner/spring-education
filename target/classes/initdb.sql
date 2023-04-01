@@ -1,0 +1,5 @@
+CREATE USER me WITH PASSWORD 'Nigerrs123+' SUPERUSER;
+CREATE DATABASE userbase;
+\c userbase;
+
+

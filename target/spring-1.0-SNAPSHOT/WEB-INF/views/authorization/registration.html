@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/registration}" th:object="${user}">
+    <label for="username">Enter username: </label>
+    <input type="text" th:field="*{username}" id="username">
+    <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
+    <br/>
+    <label for="password">Enter password: </label>
+    <input type="password" th:field="*{password}" id="password">
+    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
+    <br/>
+    <label for="passConfirm">Enter password one more time: </label>
+    <input type="password" id="passConfirm" name="passConfirm" value="${passConfirm}">
+    <br/>
+    <label for="email">Enter email: </label>
+    <input type="email" th:field="*{email}" id="email">
+    <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+    <br/>
+    <label for="firstName">Enter first name: </label>
+    <input type="text" th:field="*{firstName}" id="firstName">
+    <div style="color: red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name error</div>
+    <br/>
+    <label for="lastName">Enter last name: </label>
+    <input type="text" th:field="*{lastName}" id="lastName">
+    <div style="color: red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last name error</div>
+    <br/>
+    <label for="birthday">Enter birthday: </label>
+    <input type="date" th:field="*{birthday}" id="birthday">
+    <div style="color: red" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">Birthday error</div>
+    <br/>
+    <input type="submit" value="Sign up">
+</form>
+
+</body>
+</html>

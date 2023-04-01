@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin page</title>
+</head>
+<body>
+<form name="admin" id="admin">
+   <h2>List of users</h2>
+<table>
+    <tr>
+        <th>id</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Age</th>
+        <th>Role</th>
+        <th>Action</th>
+    </tr>
+    <div  th:each="person : ${peopleList}">
+        <tr>
+            <td th:text="${person.getId()}">id</td>
+            <td th:text="${person.getFirstName()}">First Name</td>
+            <td th:text="${person.getLastName()}">Last Name</td>
+            <td th:text="${person.getBirthday()}">birthday</td>
+            <td th:text="${person.getRole().getName()}">role</td>
+            <td>
+                <a th:href="@{/adminHome/editUser/{id}(id=${person.getId()})}">Edit</a>
+                <a th:href="@{/adminHome/deliteUser/{id}(id=${person.getId()})}">Delete</a>
+            </td>
+        </tr>
+    </div>
+</table>
+</form>
+</body>
+</html>
