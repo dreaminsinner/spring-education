@@ -6,32 +6,32 @@
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/registration}" th:object="${user}">
+<form th:method="POST" th:action="@{/adminHome/addUser}" th:object="${UserDto}">
     <label for="username">Enter username: </label>
-    <input type="text" th:field="*{username}" id="username">
+    <input type="text" th:field="*{username}" id="username" required>
     <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
     <br/>
     <label for="password">Enter password: </label>
-    <input type="password" th:field="*{password}" id="password">
+    <input type="password" th:field="*{password}" id="password" required>
     <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
     <br/>
-    <label for="passConfirm">Enter password one more time: </label>
-    <input type="password" id="passConfirm" name="passConfirm">
+    <label for="passwordConfirmation">Enter password one more time: </label>
+    <input type="password" th:field="*{passwordConfirmation}" id="passwordConfirmation" required>
     <br/>
     <label for="email">Enter email: </label>
-    <input type="email" th:field="*{email}" id="email">
+    <input type="email" th:field="*{email}" id="email" required>
     <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
     <br/>
     <label for="firstName">Enter first name: </label>
-    <input type="text" th:field="*{firstName}" id="firstName">
+    <input type="text" th:field="*{firstName}" id="firstName" required>
     <div style="color: red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name error</div>
     <br/>
     <label for="lastName">Enter last name: </label>
-    <input type="text" th:field="*{lastName}" id="lastName">
+    <input type="text" th:field="*{lastName}" id="lastName" required>
     <div style="color: red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last name error</div>
     <br/>
     <label for="birthday">Enter birthday: </label>
-    <input type="date" th:field="*{birthday}" id="birthday">
+    <input type="date" th:field="*{birthday}" id="birthday" required>
     <div style="color: red" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">Birthday error</div>
     <br/>
     <label for="role">Choose role</label>

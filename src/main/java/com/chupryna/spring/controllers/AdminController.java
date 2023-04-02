@@ -1,9 +1,11 @@
 package com.chupryna.spring.controllers;
 
+import com.chupryna.spring.dto.UserDto;
 import com.chupryna.spring.models.Role;
 import com.chupryna.spring.models.User;
 import com.chupryna.spring.services.PeopleService;
 import com.chupryna.spring.services.RoleService;
+import com.chupryna.spring.util.Mapper;
 import com.chupryna.spring.util.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,11 +28,14 @@ public class AdminController {
 
     private final UserValidator userValidator;
 
+    private final Mapper mapper;
+
     @Autowired
-    public AdminController(RoleService roleService, PeopleService peopleService, UserValidator userValidator) {
+    public AdminController(RoleService roleService, PeopleService peopleService, UserValidator userValidator, Mapper mapper) {
         this.roleService = roleService;
         this.peopleService = peopleService;
         this.userValidator = userValidator;
+        this.mapper = mapper;
     }
 
     @GetMapping
@@ -38,6 +43,7 @@ public class AdminController {
         model.addAttribute("peopleList", peopleService.findAll()
                 .stream()
                 .sorted(Comparator.comparing(User::getId))
+                .map(mapper::userToDto)
                 .collect(Collectors.toList()));
         return "adminPages/adminHome";
     }
@@ -46,27 +52,50 @@ public class AdminController {
     public String editUser(@PathVariable long id,
                            ModelMap model) {
         model.addAttribute("roleList", roleService.findAll());
-        model.addAttribute("user", peopleService.findById(id));
+        model.addAttribute("UserDto", mapper.userToDto(peopleService.findById(id).get()));
         return "adminPages/editUser";
     }
 
     @PatchMapping("/editUser/{id}")
     public String confirmEdit(
-            @ModelAttribute("user") @Valid User user,
+            @ModelAttribute("UserDto") @Valid UserDto userDto,
             BindingResult bindingResult,
             ModelMap model) {
         model.addAttribute("roleList", roleService.findAll());
-        String passConfirm = (String) model.getAttribute("passConfirm");
-        if(user.getRole().getName().equals("ROLE_ADMIN")){
-            user.setRole(new Role(1,"ROLE_ADMIN"));
-        } else user.setRole(new Role(2,"ROLE_USER"));
-        userValidator.validate(user, bindingResult);
+        if (userDto.getRole().getName().equals("ROLE_ADMIN")) {
+            userDto.setRole(new Role(1, "ROLE_ADMIN"));
+        } else userDto.setRole(new Role(2, "ROLE_USER"));
+        userValidator.validate(userDto, bindingResult);
+        userValidator.checkPass(userDto.getPassword(), userDto.getPasswordConfirmation(), bindingResult);
         if (bindingResult.hasErrors()) {
-            System.out.println(bindingResult.getAllErrors());
-            System.out.println("ZALETEL");
             return "/adminPages/editUser";
         }
-            peopleService.save(user);
+        peopleService.save(userDto);
+        return "redirect:/adminHome";
+    }
+
+    @GetMapping("/addUser")
+    public String addingPage(@ModelAttribute("UserDto") UserDto userDto,
+                             ModelMap model) {
+        model.addAttribute("roleList", roleService.findAll());
+        return "adminPages/addUser";
+    }
+
+    @PostMapping("/addUser")
+    public String performAdd(@ModelAttribute("UserDto") @Valid UserDto userDto,
+                             BindingResult bindingResult,
+                             ModelMap model) {
+        model.addAttribute("roleList", roleService.findAll());
+        if (userDto.getRole().getName().equals("ROLE_ADMIN")) {
+            userDto.setRole(new Role(1, "ROLE_ADMIN"));
+        } else userDto.setRole(new Role(2, "ROLE_USER"));
+        userValidator.validate(userDto, bindingResult);
+        userValidator.checkPass(userDto.getPassword(), userDto.getPasswordConfirmation(), bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "adminPages/addUser";
+        } else {
+            peopleService.save(userDto);
             return "redirect:/adminHome";
+        }
     }
 }

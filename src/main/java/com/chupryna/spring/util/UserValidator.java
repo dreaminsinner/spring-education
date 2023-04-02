@@ -1,6 +1,7 @@
 package com.chupryna.spring.util;
 
 
+import com.chupryna.spring.dto.UserDto;
 import com.chupryna.spring.models.User;
 import com.chupryna.spring.services.PeopleValidateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,16 +28,18 @@ public class UserValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return User.class.equals(aClass);
+        return UserDto.class.equals(aClass);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
-        User user = (User) o;
-        if (peopleValidateService.isEmailExists(user.getEmail())) {
+        UserDto userDto = (UserDto) o;
+        User user = peopleValidateService.findByEmail(userDto.getEmail());
+        User user1 = peopleValidateService.findByUsername(userDto.getUsername());
+        if (peopleValidateService.isEmailExists(userDto.getEmail()) && user.getId() != userDto.getId()) {
             errors.rejectValue("email", "error.user", "This email is already registered");
         }
-        if (peopleValidateService.isUsernameExists(user.getUsername())) {
+        if (peopleValidateService.isUsernameExists(userDto.getUsername()) && user1.getId() != userDto.getId()) {
             errors.rejectValue("username", "error.user", "This username is already registered");
         }
     }

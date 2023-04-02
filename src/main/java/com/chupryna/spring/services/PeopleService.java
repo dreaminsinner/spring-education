@@ -1,12 +1,16 @@
 package com.chupryna.spring.services;
 
 
+import com.chupryna.spring.dto.UserDto;
 import com.chupryna.spring.repositories.PeopleRepository;
 import com.chupryna.spring.security.UserDetail;
+import com.chupryna.spring.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.chupryna.spring.models.User;
@@ -21,9 +25,15 @@ public class PeopleService implements UserDetailsService {
 
     private final PeopleRepository peopleRepository;
 
+    private final Mapper mapper;
+
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public PeopleService(PeopleRepository peopleRepository) {
+    public PeopleService(PeopleRepository peopleRepository, Mapper mapper, @Lazy PasswordEncoder passwordEncoder) {
         this.peopleRepository = peopleRepository;
+        this.mapper = mapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -42,10 +52,9 @@ public class PeopleService implements UserDetailsService {
     }
 
     @Transactional
-    public void save(User user){
-        peopleRepository.save(user);
+    public void save(UserDto userDto) {
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        peopleRepository.save(mapper.dtoToUser(userDto));
     }
-
-
 
 }

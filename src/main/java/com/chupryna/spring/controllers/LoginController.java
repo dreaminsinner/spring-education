@@ -1,12 +1,11 @@
 package com.chupryna.spring.controllers;
 
+import com.chupryna.spring.dto.UserDto;
 import com.chupryna.spring.models.User;
 import com.chupryna.spring.services.RegistrationService;
-import com.chupryna.spring.services.RoleService;
 import com.chupryna.spring.util.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,29 +28,25 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String loginPage(){
+    public String loginPage() {
         return "authorization/login";
     }
 
     @GetMapping("/registration")
-    public String registrationPage(@ModelAttribute("user")User user){
+    public String registrationPage(@ModelAttribute("UserDto") UserDto userDto) {
         return "authorization/registration";
     }
 
     @PostMapping("/registration")
-    public String performRegistration(@ModelAttribute("user") @Valid User user,
-                                      BindingResult bindingResult,
-                                      ModelMap model){
-        System.out.println(model.getAttribute("passConfirm"));
-        String passConfirm = (String) model.getAttribute("passConfirm");
-        userValidator.validate(user, bindingResult);
-        userValidator.checkPass(user.getPassword(), passConfirm, bindingResult);
-        if(bindingResult.hasErrors()) {
+    public String performRegistration(@ModelAttribute("UserDto") @Valid UserDto userDto,
+                                      BindingResult bindingResult) {
+        userValidator.validate(userDto, bindingResult);
+        userValidator.checkPass(userDto.getPassword(), userDto.getPasswordConfirmation(), bindingResult);
+        if (bindingResult.hasErrors()) {
             return "authorization/registration";
-        } else
-            {
-                registrationService.register(user);
-                return "redirect:/authorization/login";
-            }
+        } else {
+            registrationService.register(userDto);
+            return "redirect:/authorization/login";
+        }
     }
 }
