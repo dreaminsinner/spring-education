@@ -1,12 +1,10 @@
 package com.chupryna.spring.controllers;
 
 import com.chupryna.spring.dto.UserDto;
-import com.chupryna.spring.models.User;
 import com.chupryna.spring.services.RegistrationService;
 import com.chupryna.spring.util.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;

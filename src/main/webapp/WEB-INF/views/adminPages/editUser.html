@@ -5,44 +5,44 @@
     <title>Title</title>
 </head>
 <body>
-<input type="hidden" th:value="*{id}" id="id" name="id">
-<form th:method="PATCH" th:action="@{/adminHome/editUser/{id}(id=${id})} " th:object="${UserDto}">
+<input id="id" name="id" th:value="*{id}" type="hidden">
+<form th:action="@{/adminHome/editUser/{id}(id=${id})}" th:method="PATCH" th:object="${UserDto}">
     <div>
         <label for="username">username:</label>
-        <input type="text" id="username" name="username" th:field="*{username}" required/>
-        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+        <input id="username" name="username" required th:field="*{username}" type="text"/>
+        <span th:errors="*{username}" th:if="${#fields.hasErrors('username')}"></span>
     </div>
     <div>
         <label for="password">password:</label>
-        <input type="password" id="password" name="password" th:field="*{password}" required/>
-        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+        <input id="password" name="password" required th:field="*{password}" type="password"/>
+        <span th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></span>
     </div>
     <label for="passwordConfirmation">Enter password one more time: </label>
-    <input type="password" id="passwordConfirmation" th:field="*{passwordConfirmation}" required/>
+    <input id="passwordConfirmation" required th:field="*{passwordConfirmation}" type="password"/>
     <br/>
     <div>
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" th:field="*{email}" required/>
-        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        <input id="email" name="email" required th:field="*{email}" type="email"/>
+        <span th:errors="*{email}" th:if="${#fields.hasErrors('email')}"></span>
     </div>
     <div>
         <label for="firstName">firstName:</label>
-        <input type="text" id="firstName" name="firstName" th:field="*{firstName}" required/>
-        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
+        <input id="firstName" name="firstName" required th:field="*{firstName}" type="text"/>
+        <span th:errors="*{firstName}" th:if="${#fields.hasErrors('firstName')}"></span>
     </div>
     <div>
         <label for="lastName">lastName:</label>
-        <input type="text" id="lastName" name="lastName" th:field="*{lastName}" required/>
-        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+        <input id="lastName" name="lastName" required th:field="*{lastName}" type="text"/>
+        <span th:errors="*{lastName}" th:if="${#fields.hasErrors('lastName')}"></span>
     </div>
     <div>
         <label for="birthday">birthday:</label>
-        <input type="date" id="birthday" name="birthday" th:field="*{birthday}" required/>
-        <span th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}"></span>
+        <input id="birthday" name="birthday" required th:field="*{birthday}" type="date"/>
+        <span th:errors="*{birthday}" th:if="${#fields.hasErrors('birthday')}"></span>
     </div>
     <label for="role">Choose role</label>
-    <select name="roles" id="role" th:field="*{role.name}" required>
-        <option th:each="nig : ${roleList}" th:value="${nig.getName()}" th:text="${nig.getName()}">
+    <select id="role" name="roles" required th:field="*{role.name}">
+        <option th:each="nig : ${roleList}" th:text="${nig.getName()}" th:value="${nig.getName()}">
         </option>
     </select>
     <br/>

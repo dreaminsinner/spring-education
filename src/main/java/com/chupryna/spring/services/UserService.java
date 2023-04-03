@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class UserService {
 
-    public String showLoggedUserInfo(){
+    public String showLoggedUserInfo() {
         UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return "Hi, " + userDetail.getUser().getFirstName() + " " + userDetail.getUser().getLastName();
     }

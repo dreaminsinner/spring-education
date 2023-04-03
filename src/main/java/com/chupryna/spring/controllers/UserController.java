@@ -18,9 +18,9 @@ public class UserController {
 
 
     @GetMapping("/userHome")
-    public String userHome(Model model){
+    public String userHome(Model model) {
         String message = userService.showLoggedUserInfo();
-        model.addAttribute("userInfo", message) ;
+        model.addAttribute("userInfo", message);
         return "userPages/userHome";
     }
 

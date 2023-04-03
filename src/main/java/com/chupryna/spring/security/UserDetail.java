@@ -26,6 +26,7 @@ public class UserDetail implements UserDetails {
     public boolean hasRole(String roleName) {
         return this.user.getRole().getName().equals(roleName);
     }
+
     @Override
     public String getPassword() {
         return this.user.getPassword();

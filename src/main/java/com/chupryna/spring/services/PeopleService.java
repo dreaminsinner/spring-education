@@ -2,6 +2,7 @@ package com.chupryna.spring.services;
 
 
 import com.chupryna.spring.dto.UserDto;
+import com.chupryna.spring.models.User;
 import com.chupryna.spring.repositories.PeopleRepository;
 import com.chupryna.spring.security.UserDetail;
 import com.chupryna.spring.util.Mapper;
@@ -13,7 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.chupryna.spring.models.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,15 +39,15 @@ public class PeopleService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> foundUser = peopleRepository.findByUsername(username);
-        if(foundUser.isEmpty()) throw  new UsernameNotFoundException("User not found!");
+        if (foundUser.isEmpty()) throw new UsernameNotFoundException("User not found!");
         return new UserDetail(foundUser.get());
     }
 
-    public List<User> findAll(){
+    public List<User> findAll() {
         return peopleRepository.findAll();
     }
 
-    public Optional<User> findById(long id){
+    public Optional<User> findById(long id) {
         return peopleRepository.findById(id);
     }
 
@@ -56,5 +56,6 @@ public class PeopleService implements UserDetailsService {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         peopleRepository.save(mapper.dtoToUser(userDto));
     }
+
 
 }

@@ -6,11 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
 
 @Data
 @AllArgsConstructor
@@ -43,6 +44,8 @@ public class UserDto {
 
     private Role role;
 
+    private String age;
+
     public UserDto(
             long id,
             String username,
@@ -53,6 +56,7 @@ public class UserDto {
             Date birthday,
             Role role
     ) {
+        this.age = String.valueOf(Period.between(birthday.toLocalDate(), LocalDate.now()).getYears());
         this.id = id;
         this.username = username;
         this.password = password;

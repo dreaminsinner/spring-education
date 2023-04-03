@@ -3,8 +3,10 @@ package com.chupryna.spring.util;
 
 import com.chupryna.spring.dto.UserDto;
 import com.chupryna.spring.models.User;
+import com.chupryna.spring.security.UserDetail;
 import com.chupryna.spring.services.PeopleValidateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -44,5 +46,10 @@ public class UserValidator implements Validator {
         }
     }
 
-
+    public void deleteValidation(long id, Errors errors) {
+        UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (userDetail.getUser().getId() == id) {
+            errors.rejectValue("user", "error.user", "You can not delete yourself");
+        }
+    }
 }

@@ -3,11 +3,14 @@ package com.chupryna.spring.controllers;
 import com.chupryna.spring.dto.UserDto;
 import com.chupryna.spring.models.Role;
 import com.chupryna.spring.models.User;
+import com.chupryna.spring.security.UserDetail;
+import com.chupryna.spring.services.DeleteService;
 import com.chupryna.spring.services.PeopleService;
 import com.chupryna.spring.services.RoleService;
 import com.chupryna.spring.util.Mapper;
 import com.chupryna.spring.util.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -30,12 +33,15 @@ public class AdminController {
 
     private final Mapper mapper;
 
+    private final DeleteService deleteService;
+
     @Autowired
-    public AdminController(RoleService roleService, PeopleService peopleService, UserValidator userValidator, Mapper mapper) {
+    public AdminController(RoleService roleService, PeopleService peopleService, UserValidator userValidator, Mapper mapper, DeleteService deleteService) {
         this.roleService = roleService;
         this.peopleService = peopleService;
         this.userValidator = userValidator;
         this.mapper = mapper;
+        this.deleteService = deleteService;
     }
 
     @GetMapping
@@ -95,6 +101,25 @@ public class AdminController {
             return "adminPages/addUser";
         } else {
             peopleService.save(userDto);
+            return "redirect:/adminHome";
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteUser(@PathVariable("id") long id,
+                             ModelMap model
+    ) {
+        UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (userDetail.getUser().getId() == id) {
+            model.addAttribute("error", "true");
+            model.addAttribute("peopleList", peopleService.findAll()
+                    .stream()
+                    .sorted(Comparator.comparing(User::getId))
+                    .map(mapper::userToDto)
+                    .collect(Collectors.toList()));
+            return "adminPages/adminHome";
+        } else {
+            deleteService.deleteUser(id);
             return "redirect:/adminHome";
         }
     }

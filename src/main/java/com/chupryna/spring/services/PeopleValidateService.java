@@ -16,12 +16,12 @@ public class PeopleValidateService {
         this.peopleRepository = peopleRepository;
     }
 
-    public User findByEmail(String email){
+    public User findByEmail(String email) {
         Optional<User> user = peopleRepository.findByEmail(email);
         return user.orElse(null);
     }
 
-    public User findByUsername(String username){
+    public User findByUsername(String username) {
         Optional<User> user = peopleRepository.findByUsername(username);
         return user.orElse(null);
     }

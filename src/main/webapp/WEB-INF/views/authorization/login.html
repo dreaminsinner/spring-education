@@ -6,19 +6,21 @@
 </head>
 <body>
 
-<form name="f" method="post" action="/process_login">
+<form action="/process_login" method="post" name="f">
     <label for="username">Enter your username: </label>
-    <input type="text" name="username" id="username"/>
+    <input id="username" name="username" type="text"/>
     <br/>
     <label for="password">Enter your password: </label>
-    <input type="password" name="password" id="password"/>
+    <input id="password" name="password" type="password"/>
     <br/>
     <input type="submit" value="Login"/>
-    <div th:if="${param.error}" style="color: red">
+    <div style="color: red" th:if="${param.error}">
         Wrong username/password
     </div>
 </form>
 <br/>
-<a href="/registration">Registration</a>
+<button type="button"
+         th:onclick="|window.location.href='@{/registration}'|">registration
+</button>
 </body>
 </html>

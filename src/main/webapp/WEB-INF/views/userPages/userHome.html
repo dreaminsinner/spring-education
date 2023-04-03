@@ -7,6 +7,8 @@
 <body>
 <p th:text="${userInfo}"></p>
 <br/>
-<a href="/logout">Click here to logout</a>
+<button  type="button"
+        th:onclick="|window.location.href='@{/logout}'|">Logout
+</button>
 </body>
 </html>

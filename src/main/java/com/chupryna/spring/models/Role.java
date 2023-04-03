@@ -1,8 +1,6 @@
 package com.chupryna.spring.models;
 
 
-
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
