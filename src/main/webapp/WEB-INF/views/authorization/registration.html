@@ -3,39 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
 
-<form th:action="@{/registration}" th:method="POST" th:object="${UserDto}">
-    <label for="username">Enter username: </label>
-    <input id="username" required th:field="*{username}" type="text">
-    <div style="color: red" th:errors="*{username}" th:if="${#fields.hasErrors('username')}">Username error</div>
-    <br/>
-    <label for="password">Enter password: </label>
-    <input id="password" required th:field="*{password}" type="password">
-    <div style="color: red" th:errors="*{password}" th:if="${#fields.hasErrors('password')}">Password error</div>
-    <br/>
-    <label for="passwordConfirmation">Enter password one more time: </label>
-    <input id="passwordConfirmation" required th:field="*{passwordConfirmation}" type="password">
-    <br/>
-    <label for="email">Enter email: </label>
-    <input id="email" required th:field="*{email}" type="email">
-    <div style="color: red" th:errors="*{email}" th:if="${#fields.hasErrors('email')}">Email error</div>
-    <br/>
-    <label for="firstName">Enter first name: </label>
-    <input id="firstName" required th:field="*{firstName}" type="text">
-    <div style="color: red" th:errors="*{firstName}" th:if="${#fields.hasErrors('firstName')}">First name error</div>
-    <br/>
-    <label for="lastName">Enter last name: </label>
-    <input id="lastName" required th:field="*{lastName}" type="text">
-    <div style="color: red" th:errors="*{lastName}" th:if="${#fields.hasErrors('lastName')}">Last name error</div>
-    <br/>
-    <label for="birthday">Enter birthday: </label>
-    <input id="birthday" required th:field="*{birthday}" type="date">
-    <div style="color: red" th:errors="*{birthday}" th:if="${#fields.hasErrors('birthday')}">Birthday error</div>
-    <br/>
-    <input type="submit" value="Sign up">
-</form>
+<div class="container mt-5">
+    <form th:action="@{/registration}" th:method="POST" th:object="${UserDto}">
+        <div class="form-group">
+            <label for="username">Enter username:</label>
+            <input id="username" required th:field="*{username}" type="text" class="form-control">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}">
+                <span th:errors="*{username}"></span>
+            </div>
+        </div>
 
+        <div class="form-group">
+            <label for="password">Enter password:</label>
+            <input id="password" required th:field="*{password}" type="password" class="form-control">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}">
+                <span th:errors="*{password}"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="passwordConfirmation">Enter password one more time:</label>
+            <input id="passwordConfirmation" required th:field="*{passwordConfirmation}" type="password"
+                   class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Enter email:</label>
+            <input id="email" required th:field="*{email}" type="email" class="form-control">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}">
+                <span th:errors="*{email}"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="firstName">Enter first name:</label>
+            <input id="firstName" required th:field="*{firstName}" type="text" class="form-control">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}">
+                <span th:errors="*{firstName}"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName">Enter last name:</label>
+            <input id="lastName" required th:field="*{lastName}" type="text" class="form-control">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}">
+                <span th:errors="*{lastName}"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="birthday">Enter birthday:</label>
+            <input id="birthday" required th:field="*{birthday}" type="date" class="form-control">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('birthday')}">
+                <span th:errors="*{birthday}"></span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="button" onclick="history.back()" class="btn btn-secondary">Back</button>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </body>
 </html>

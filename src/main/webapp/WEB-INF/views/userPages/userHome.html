@@ -2,13 +2,78 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>User page</title>
+    <title>User Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        body {
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .user-gps {
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        h1, h2 {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #003366;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        p {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333333;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        button {
+            margin-top: 20px;
+        }
+    </style>
 </head>
-<body>
-<p th:text="${userInfo}"></p>
-<br/>
-<button  type="button"
-        th:onclick="|window.location.href='@{/logout}'|">Logout
-</button>
+<body onload="getLocation()">
+<div class="container">
+    <h1>User Page</h1>
+    <p th:text="${userInfo}"></p>
+    <div class="user-gps">
+        <h2>User Details:</h2>
+        <p>Your IP address location is: <span id="user-gps"></span></p>
+        <p th:text="${ip}"></p>
+        <h2>Your GPS location is:</h2>
+        <p id="demo"></p>
+    </div>
+    <button class="btn btn-primary" type="button" th:onclick="|window.location.href='@{/logout}'|">Logout</button>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmIvTl4Q=="
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+<script>
+    let x = document.getElementById("demo");
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        x.innerHTML = "Latitude: " + position.coords.latitude +
+            "<br>Longitude: " + position.coords.longitude;
+    }
+</script>
 </body>
 </html>
+
+

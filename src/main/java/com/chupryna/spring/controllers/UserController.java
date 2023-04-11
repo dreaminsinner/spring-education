@@ -4,7 +4,10 @@ import com.chupryna.spring.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class UserController {
@@ -18,7 +21,8 @@ public class UserController {
 
 
     @GetMapping("/userHome")
-    public String userHome(Model model) {
+    public String userHome(ModelMap model, HttpServletRequest request) {
+        model.addAttribute("ip", request.getRemoteAddr());
         String message = userService.showLoggedUserInfo();
         model.addAttribute("userInfo", message);
         return "userPages/userHome";

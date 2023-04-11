@@ -2,51 +2,79 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Edit User</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .required-label::after {
+            content: '*';
+            color: red;
+            margin-left: 0.2rem;
+        }
+    </style>
 </head>
 <body>
 <input id="id" name="id" th:value="*{id}" type="hidden">
-<form th:action="@{/adminHome/editUser/{id}(id=${id})}" th:method="PATCH" th:object="${UserDto}">
-    <div>
-        <label for="username">username:</label>
-        <input id="username" name="username" required th:field="*{username}" type="text"/>
-        <span th:errors="*{username}" th:if="${#fields.hasErrors('username')}"></span>
+<form th:action="@{/adminHome/editUser/{id}(id=${id})}" th:method="PATCH" th:object="${UserDto}" class="container">
+    <div class="form-group">
+        <label for="username" class="required-label">Username:</label>
+        <input id="username" name="username" required th:field="*{username}" type="text" class="form-control"/>
+        <span th:errors="*{username}" th:if="${#fields.hasErrors('username')}" class="text-danger"></span>
     </div>
-    <div>
-        <label for="password">password:</label>
-        <input id="password" name="password" required th:field="*{password}" type="password"/>
-        <span th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></span>
+    <div class="form-group">
+        <label for="password" class="required-label">Password:</label>
+        <input id="password" name="password" required th:field="*{password}" type="password" class="form-control"/>
+        <span th:errors="*{password}" th:if="${#fields.hasErrors('password')}" class="text-danger"></span>
     </div>
-    <label for="passwordConfirmation">Enter password one more time: </label>
-    <input id="passwordConfirmation" required th:field="*{passwordConfirmation}" type="password"/>
-    <br/>
-    <div>
-        <label for="email">Email:</label>
-        <input id="email" name="email" required th:field="*{email}" type="email"/>
-        <span th:errors="*{email}" th:if="${#fields.hasErrors('email')}"></span>
+    <div class="form-group">
+        <label for="passwordConfirmation" class="required-label">Confirm password:</label>
+        <input id="passwordConfirmation" required th:field="*{passwordConfirmation}" type="password" class="form-control"/>
+        <span th:if="${#fields.hasErrors('passwordConfirmation')}" class="text-danger">Passwords do not match.</span>
     </div>
-    <div>
-        <label for="firstName">firstName:</label>
-        <input id="firstName" name="firstName" required th:field="*{firstName}" type="text"/>
-        <span th:errors="*{firstName}" th:if="${#fields.hasErrors('firstName')}"></span>
+    <div class="form-group">
+        <label for="email" class="required-label">Email:</label>
+        <input id="email" name="email" required th:field="*{email}" type="email" class="form-control"/>
+        <span th:errors="*{email}" th:if="${#fields.hasErrors('email')}" class="text-danger"></span>
     </div>
-    <div>
-        <label for="lastName">lastName:</label>
-        <input id="lastName" name="lastName" required th:field="*{lastName}" type="text"/>
-        <span th:errors="*{lastName}" th:if="${#fields.hasErrors('lastName')}"></span>
+    <div class="form-group">
+        <label for="firstName" class="required-label">First Name:</label>
+        <input id="firstName" name="firstName" required th:field="*{firstName}" type="text" class="form-control"/>
+        <span th:errors="*{firstName}" th:if="${#fields.hasErrors('firstName')}" class="text-danger"></span>
     </div>
-    <div>
-        <label for="birthday">birthday:</label>
-        <input id="birthday" name="birthday" required th:field="*{birthday}" type="date"/>
-        <span th:errors="*{birthday}" th:if="${#fields.hasErrors('birthday')}"></span>
+    <div class="form-group">
+        <label for="lastName" class="required-label">Last Name:</label>
+        <input id="lastName" name="lastName" required th:field="*{lastName}" type="text" class="form-control"/>
+        <span th:errors="*{lastName}" th:if="${#fields.hasErrors('lastName')}" class="text-danger"></span>
     </div>
-    <label for="role">Choose role</label>
-    <select id="role" name="roles" required th:field="*{role.name}">
-        <option th:each="nig : ${roleList}" th:text="${nig.getName()}" th:value="${nig.getName()}">
-        </option>
-    </select>
-    <br/>
-    <input type="submit" value="Sign up">
+    <div class="form-group">
+        <label for="birthday" class="required-label">Birthday :</label>
+        <input type="date" id="birthday" name="birthday" required th:field="*{birthday}" class="form-control"/>
+        <span th:errors="*{birthday}" th:if="${#fields.hasErrors('birthday')}" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="role">Choose role</label>
+        <select id="role" name="roles" required th:field="*{role.name}">
+            <option th:each="nig : ${roleList}" th:text="${nig.getName()}" th:value="${nig.getName()}">
+            </option>
+        </select></div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" onclick="history.back()" class="btn btn-secondary">Back</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
+            integrity="sha384-8Kp7f+gOR+xX9mVGlH1ohWmELgCZeoWhAScQFIfzSN8rly1DgIbA9ir1N6kaSRU6"
+            crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-HcPT6atdZRn+3On3kRWoXswoDwwM/wwpzFw/6Y8J6zrShCggxkxVXJj8K9gJQgi6"
+            crossorigin="anonymous"></script>
 </form>
 </body>
 </html>
